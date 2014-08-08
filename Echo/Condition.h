@@ -1,0 +1,33 @@
+//
+//  Condition.h
+//  Poll
+//
+//  Created by 陈希 on 14-8-8.
+//  Copyright (c) 2014年 陈希. All rights reserved.
+//
+
+#ifndef __Poll__Condition__
+#define __Poll__Condition__
+
+#include <iostream>
+#include <pthread.h>
+#include "NonCopyable.h"
+
+class MutexLock;
+
+class Condition: NonCopyable
+{
+public:
+    Condition(MutexLock &mutex);
+    ~Condition();
+    
+    void wait();
+    void notify();
+    void notifyAll();
+    
+private:
+    pthread_cond_t cond_;
+    MutexLock &mutex_;
+};
+
+#endif /* defined(__Poll__Condition__) */
