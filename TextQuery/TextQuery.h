@@ -21,6 +21,7 @@
 
 class TextQuery {
 public:
+    void debug();
     typedef std::vector<std::string>::size_type line_no;
     
     TextQuery();
@@ -39,9 +40,10 @@ private:
     void build_map();
     std::vector<std::string> lines_of_text;
     std::map<std::string, std::set<line_no> > word_map;
-    
-    std::set<TextQuery::line_no>;
     std::ifstream is_;
+
 };
+
+
 
 #endif /* defined(__TextQuery__TextQuery__) */

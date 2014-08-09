@@ -9,6 +9,10 @@
 #include "TextQuery.h"
 #include <iostream>
 #include <string>
+#include <functional>
+#include <algorithm>
+#include <cstdlib>
+#include <stdexcept>
 using namespace std;
 
 void TextQuery::store_file()
@@ -25,6 +29,15 @@ void TextQuery::build_map()
         istringstream line(lines_of_text[line_num]);
         string word;
         while (line >> word) {
+            for(string::iterator it = word.begin(); it != word.end(); ++it) {
+                if (isupper(*it))
+                    tolower(*it);
+                if (ispunct(*it))
+                    *it = ' ';
+            }
+            string::iterator new_end = remove_if(word.begin(), word.end(), bind2nd(equal_to<char>(), ' '));
+
+            word.erase(new_end, word.end());
             word_map[word].insert(line_num);
         }
     }
@@ -73,4 +86,12 @@ TextQuery::TextQuery()
 :is_(NULL)
 {
     
+}
+
+void TextQuery::debug()
+{
+    map<string, set<line_no> >::const_iterator loc = word_map.begin();
+    for(; loc != word_map.end(); loc++) {
+        cout << loc->first << endl;
+    }
 }

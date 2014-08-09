@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <cstdlib>
 #include "TextQuery.h"
 using namespace std;
 
@@ -23,6 +24,7 @@ int main(int argc, const char * argv[])
         return EXIT_FAILURE;
     }
     tq.read_file();
+    //tq.debug();
     while (true) {
         cout << "enter word to look for , or q to quit: ";
         string s;
@@ -30,13 +32,10 @@ int main(int argc, const char * argv[])
         if (!cin || s == "q") {
             break;
         }
-        string aim;
-        aim = s.substr(s.length()-2);
-        set<TextQuery::line_no> locs = tq.run_query(aim);
+        set<TextQuery::line_no> locs = tq.run_query(s);
         tq.print_result(locs, s, tq);
     }
     
     
     return 0;
 }
-
